@@ -1,0 +1,16 @@
+{
+  "env": {
+    "development": {
+      "sourceMaps": true
+      // "plugins": [ "source-map-support" ]
+    }
+  },
+  "presets": [
+    "@babel/env",
+    "@babel/typescript"
+  ],
+  "plugins": [
+    "@babel/proposal-class-properties",
+    "@babel/proposal-object-rest-spread"
+  ]
+}
