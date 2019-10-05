@@ -7,7 +7,7 @@
 [![Dev Dependencies](https://david-dm.org/snowyu/pouchdb-transform.js/dev-status.svg)](https://david-dm.org/snowyu/pouchdb-transform.js?type=dev)
 
 
-Apply a *transform function* to documents before and after they are stored in the database. These functions are triggered invisibly for every `get()`, `put()`, `post()`, `bulkDocs()`, `allDocs()`, `changes()`, and also to documents added via replication.
+Apply a *transform function* to documents before and after they are stored in the database. These functions are triggered invisibly for every `get()`, `put()`, `post()`, `bulkDocs()`, `allDocs()`, `changes()` before or after, and also to documents added via replication.
 
 This allows you to:
 
@@ -15,7 +15,17 @@ This allows you to:
 * Compress and uncompress large content (e.g. to avoid hitting [browser storage limits](http://pouchdb.com/faq.html#data_limits))
 * Remove or modify documents before storage (e.g. to massage data from CouchDB)
 
-Note: This plugin is come from transform-pouch, but was renamed to be less confusing. The filter() API is still supported, but deprecated.
+Note: This plugin is modified from [transform-pouch](https://github.com/pouchdb-community/transform-pouch) to enhance it's ability:
+
++ add the `afterIncoming` and `beforeOutgoing` hook.
+  * `incoming` is triggered before saving to database.
+    * returns must be an object with `doc` attribute.
+      * can pass through extra options in the object to next hook.
+  * `afterIncoming` is triggered after saving.
+  * `beforeOutgoing` is triggered before getting from database.
+  * `outgoing` is triggered after getting from database.
+
+**Note**: This API has not been stable yet. `beforeOutgoing` has not applied to all methods.
 
 ### Usage
 
@@ -37,30 +47,30 @@ API
 
 When you create a new PouchDB, you need to configure the transform functions:
 
-```js
+```ts
 var pouch = new PouchDB('mydb');
 pouch.transform({
-  incoming: function (doc) {
+  async incoming(doc, args: IPouchDBWrapperArgs, type: TransformPouchType): ITransformIncomingResult {
     // do something to the document before storage
-    return doc;
+    return {doc, ...};
   },
-  outgoing: function (doc) {
+  afterIncoming(result: ITransformIncomingResult, type: TransformPouchType): void {
+    if (result.ok) {
+      // do something to the successful document after storage
+    } else {
+      // the failed document to save.
+    }
+  },
+  beforeOutgoing(docId: any, args: IPouchDBWrapperArgs, type: TransformPouchType): BeforeOutgoingReturn {
+    // do something to the document before retrieval
+    // it will skip retrieval and use it as doc if returns
+    return this.fCache.get(docId);
+  },
+  async outgoing(doc: IDoc,
+                 args: IPouchDBWrapperArgs,
+                 type: TransformPouchType): IDoc {
     // do something to the document after retrieval
     return doc;
-  }
-});
-```
-
-You can also use Promises:
-
-```js
-var pouch = new PouchDB('mydb');
-pouch.transform({
-  incoming: function (doc) {
-    return Promise.resolve(doc);
-  },
-  outgoing: function (doc) {
-    return Promise.resolve(doc);
   }
 });
 ```
