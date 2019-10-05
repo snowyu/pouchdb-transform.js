@@ -1,3 +1,4 @@
 Release 0.1.0:
   ☐ Use Symbol attach to the `doc` result instead of return `{ doc }`.
   ☐ Pass extra options to outgoing hook.
+  ☐ Use travis CI to release version(`@jedmao/semantic-release-npm-github-config`) automatically.
