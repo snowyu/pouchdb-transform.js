@@ -1,5 +1,4 @@
 import immediate from 'immediate';
-// import { clone } from 'pouchdb-utils';
 import wrappers from 'pouchdb-wrappers';
 
 /**
@@ -11,6 +10,11 @@ function isntInternalKey(key: string): boolean {
   return key[0] !== '_';
 }
 
+/**
+ * the key whether a local id.
+ * @param id the id string
+ * @returns true if it's a local key.
+ */
 function isLocalId(id: string): boolean {
   return /^_local/.test(id);
 }
@@ -42,8 +46,14 @@ type BeforeOutgoingReturn =
 
 export interface IDocReturnResult {
   ok?: boolean;
+  /** Document ID */
   id?: any;
+  /** New document revision token. Available if document has saved without errors. Optional */
   rev?: string;
+  /** Error type. Optional */
+  error?: string;
+  /** Error reason. Optional */
+  reason?: string;
 }
 
 export interface IDoc {
@@ -86,13 +96,13 @@ export interface ITransformPouchConfig {
 
 export interface IPouchDBWrapperArgs {
   base: any; // PouchDB instance
+  db?: any; // = base for backwards compatibility
   // tslint:disable-next-line: ban-types
   callback: Function;
   docs: any[];
   docId?: any; // get
   // tslint:disable-next-line: ban-types
   fun?: any;
-  // db: any; // backwards compatibility = base
   options: any;
   [name: string]: any;
 }
@@ -229,10 +239,9 @@ export function transform(config: ITransformPouchConfig) {
       .then(function([docs, results]) {
         // docs = docs.filter(item => !item.isUntransformable);
         docs = docs
-          .map(item => {
-            let r: any = results.filter(result => result.id === item.doc._id);
-            if (r.length) r = r[0];
-            else r = undefined;
+          .map((item, i: number) => {
+            const r: IDocReturnResult | undefined = results.filter(
+              result => result.id === item.doc._id)[0] || results[i];
             return afterIncoming(item, args, r, 'bulkDocs');
             // // fix[#5775](https://github.com/pouchdb/pouchdb/issues/5775)
             // // bulkDocs with new_edits: false always returns empty array
