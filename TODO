@@ -1,0 +1,3 @@
+☐ Use Symbol attach to the doc argument.
+  这样就不用返回传递新对象: return {doc}
+☐ Pass extra options to outgoing hook.
