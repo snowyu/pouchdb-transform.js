@@ -14,7 +14,7 @@
   "author": "Riceball LEE <snowyu.lee@gmail.com>",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/snowyu/pouchdb-transform.js"
   },
   "license": "MIT",
   "engines": {
