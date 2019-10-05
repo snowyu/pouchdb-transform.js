@@ -1,8 +1,11 @@
 {
   "name": "pouchdb-transform",
-  "version": "0.0.0",
-  "description": "",
-  "keywords": [],
+  "version": "0.0.0-development",
+  "description": "PouchDB Advanced Transform Library",
+  "keywords": [
+    "pouchdb",
+    "transform"
+  ],
   "main": "dist/pouchdb-transform.cjs.js",
   "module": "dist/pouchdb-transform.es5.js",
   "browser": "dist/pouchdb-transform.iife.js",
@@ -37,7 +40,9 @@
     "commit": "git-cz",
     "semantic-release": "semantic-release",
     "semantic-release-prepare": "ts-node tools/semantic-release-prepare",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "prepush": "npm run test:prod && npm run build",
+    "commitmsg": "commitlint -E HUSKY_GIT_PARAMS"
   },
   "lint-staged": {
     "{src,test}/**/*.ts": [
