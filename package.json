@@ -9,7 +9,6 @@
   "typings": "dist/types/pouchdb-transform.d.ts",
   "files": [
     "src",
-    "types",
     "dist"
   ],
   "author": "Riceball LEE <snowyu.lee@gmail.com>",
