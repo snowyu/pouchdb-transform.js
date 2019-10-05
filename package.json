@@ -1,6 +1,6 @@
 {
   "name": "pouchdb-transform",
-  "version": "0.0.0-development",
+  "version": "0.0.1",
   "description": "PouchDB Advanced Transform Library",
   "keywords": [
     "pouchdb",
