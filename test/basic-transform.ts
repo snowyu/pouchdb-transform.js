@@ -581,6 +581,35 @@ export function basicTests(dbName, dbType) {
       });
     });
 
+    test('transforms on bulkGet, outgoing', () => {
+      db.transform({
+        outgoing: function (doc) {
+          doc.foo = doc._id + '_baz';
+          return doc;
+        }
+      });
+      return db.bulkDocs({docs: [{_id: 'toto'}, {_id: 'lala'}]})
+      .then(function (res) {
+        expect(res).toHaveLength(2);
+        return res;
+      }).then(function (docs) {
+        return db.bulkGet({docs:[...docs, {id: 'doc_not_exists'}]}).then(function (res) {
+          res = res.results;
+          expect(res).toHaveLength(3);
+          expect(res[0].docs).toHaveLength(1);
+          expect(res[0].id).toBe('toto');
+          expect(res[0].docs[0].ok).toHaveProperty('foo', 'toto_baz');
+          expect(res[1].docs).toHaveLength(1);
+          expect(res[1].id).toBe('lala');
+          expect(res[1].docs[0].ok).toHaveProperty('foo', 'lala_baz');
+          expect(res[2].docs).toHaveLength(1);
+          expect(res[2].id).toBe('doc_not_exists');
+          expect(res[2].docs[0]).not.toHaveProperty('ok');
+          // expect(res[2].docs[0]).toHaveProperty('error');
+        });
+      });
+    });
+
     // Temporary views are not supported in CouchDB v2.0
     test.skip('transforms on query, incoming', () => {
       db.transform({
