@@ -107,6 +107,10 @@ export interface IPouchDBWrapperArgs {
   [name: string]: any;
 }
 
+/**
+ * transform the read/write operation of the pouchdb
+ * @param config the pouch transform config
+ */
 export function transform(config: ITransformPouchConfig) {
   const db = this;
 
