@@ -8,6 +8,7 @@ node_js:
   - '10'
   - '11'
   - '12'
+  - '13'
   - '8'
 install:
   - npm install
@@ -25,7 +26,14 @@ jobs:
         - npm run report-coverage
     - stage: release
       if: branch = master AND type != pull_request
-      node_js: "10"
-      script:
-        - npm run build
-        - npm run deploy-docs && npm run semantic-release
+      node_js: lts/* #"10"
+      # Advanced: optionally overwrite your default `script` step to skip the tests
+      # script: skip
+      deploy:
+        provider: script
+        skip_cleanup: true
+        script:
+          - npx semantic-release
+      # script:
+      #   - npm run build
+      #   - npm run deploy-docs && npm run semantic-release
