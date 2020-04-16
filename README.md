@@ -1,8 +1,8 @@
 # PouchDB Advanced Transform Library
 
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
-[![Greenkeeper badge](https://badges.greenkeeper.io/snowyu/pouchdb-transform.js.svg)](https://greenkeeper.io/)
-[![Travis](https://img.shields.io/travis/snowyu/pouchdb-transform.js.svg)](https://travis-ci.org/snowyu/pouchdb-transform.js)
+[![Greenkeeper badge](https://snyk.io/test/github/snowyu/pouchdb-transform.js/badge.svg)](https://snyk.io/test/github/snowyu/pouchdb-transform.js)
+[![Build Status](https://travis-ci.org/snowyu/pouchdb-transform.js.svg?branch=master)](https://travis-ci.org/snowyu/pouchdb-transform.js)
 [![Coveralls](https://img.shields.io/coveralls/snowyu/pouchdb-transform.js.svg)](https://coveralls.io/github/snowyu/pouchdb-transform.js)
 [![Dev Dependencies](https://david-dm.org/snowyu/pouchdb-transform.js/dev-status.svg)](https://david-dm.org/snowyu/pouchdb-transform.js?type=dev)
 
