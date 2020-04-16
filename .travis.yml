@@ -20,8 +20,12 @@ jobs:
   include:
     - stage: report-coverage
       node_js: "10"
-      script: npm run report-coverage
+      script:
+        - npm run test:prod
+        - npm run report-coverage
     - stage: release
       if: branch = master AND type != pull_request
       node_js: "10"
-      script: npm run deploy-docs && npm run semantic-release
+      script:
+        - npm run build
+        - npm run deploy-docs && npm run semantic-release
