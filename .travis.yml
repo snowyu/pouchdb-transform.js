@@ -10,6 +10,8 @@ node_js:
   - '12'
   - '8'
   - '6'
+install:
+  - npm install
 script:
   - npm run test:prod && npm run build
 branches:
