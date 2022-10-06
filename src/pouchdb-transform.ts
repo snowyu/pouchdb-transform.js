@@ -1,3 +1,4 @@
+import "regenerator-runtime/runtime"
 import immediate from 'immediate';
 import wrappers from 'pouchdb-wrappers';
 

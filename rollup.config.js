@@ -20,7 +20,7 @@ const config = {
   output: [
     // { file: pkg.main, name: camelCase(libraryName), format: 'umd', sourcemap: true },
     { file: pkg.main, name: camelCase(libraryName), format: 'cjs', sourcemap: true },
-    { file: pkg.browser, name: camelCase(libraryName), format: 'iife', sourcemap: true,
+    { file: pkg.browser, name: camelCase(libraryName), format: 'cjs', sourcemap: true,
       // https://rollupjs.org/guide/en#output-globals-g-globals
       globals: {'pouchdb-wrappers': 'pouchdb-wrappers', 'immediate': 'immediate'},
     },
