@@ -1,3 +1,4 @@
+import "regenerator-runtime/runtime"
 import immediate from 'immediate';
 import wrappers from 'pouchdb-wrappers';
 
@@ -390,7 +391,7 @@ export function transform(config: ITransformPouchConfig) {
           event,
           function(res) {
             modifyChanges(res).then(function(resp) {
-              process.nextTick(function() {
+              immediate(function() {
                 listener(resp);
               });
             });
